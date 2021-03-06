@@ -1,0 +1,129 @@
+
+<body>
+
+
+    <div>
+  
+      
+      <img class="cursor-pointer width-4-per" src="../../../../assets/images/items/master-ball.png" (click)="generateRandPokemon()">
+  
+      <div class="d-flex px-5 align-items-center justify-content-between">
+        <div>
+          <img class="width-70-per" src="{{ imageUrl }}" />
+        </div>
+  
+        <div class="d-flex-column">
+          <div class="d-flex align-items-center">
+            <div class="d-flex-column pr-3">
+              <div class="text-primary h6-responsive">{{ genere }}</div>
+              <div class="text-warning h1-responsive">{{ up(pokemon.name) }}</div>
+            </div>
+            <div class="d-flex align-items-center justify-content-center">
+              <div [class.text-success]="isFav(pokemon.name) " class="pr-1">favourite</div>
+              <input id='click' type='checkbox' [checked]="isFav(pokemon.name)" (click)="toggleFav(pokemon.name)">
+            </div>
+          </div>
+  
+          <div class="h6-responsive text-success">Loves to stay in {{ species.habitat }}s
+            {{ happiness }}
+          </div>
+          <div class="h6-responsive text-success">Height {{ pokemon.height/10 }} meters</div>
+          <div class="h6-responsive text-success">Weight {{ pokemon.weight/10 }} kilograms</div>
+  
+          <div *ngFor="let stat of pokemon.stats" class="d-flex">
+            <div class="h5-responsive text-danger pr-1">{{ (stat?.stat.name) }}</div>
+            <div class="h5-responsive text-info"> - </div>
+            <div class="h5-responsive text-warning pl-1 ">{{ stat?.base_stat }}</div>
+          </div>
+          <div>{{ description }}</div>
+  
+        </div>
+  
+        <div>
+          <div class="" *ngFor="let type of typeUrls">
+            <img class="pt-1" src="{{ type }}">
+          </div>
+        </div>
+      </div>
+  
+  
+  
+      <div class="d-flex height-30-vh">
+        <div>
+          <div>Abilities:</div>
+  
+          <div *ngFor="let ability of pokemon.abilities" (mouseover)="getAbility(ability.ability.url)">
+            <div type="button" mdbBtn color="primary" class="pl-2 bwaves-light" mdbTooltip={{abilityDescription}} placement="top"
+          mdbWavesEffect>
+           {{ up(ability.ability.name) }}</div>
+  
+            <span class="tooltip-text primaryColor selectable" class="{ hidden : !abilityDescription }">
+              <!-- {{ abilityDescription }} -->
+            </span>
+          </div>
+        </div>
+        <div>
+          <div>Family:</div>
+          <div class="d-flex">
+            <div *ngFor="let pokemon of members">
+              <img (click)="reloadWith(PokemonsObj,pokemon)" title="{{ getPokemonName(pokemon) }}" class="height-25-per cursor-pointer"
+                src="{{ getImageUrl(pokemon) }}" />
+            </div>
+          </div>
+        </div>
+  
+      </div>
+  
+      <div *ngIf="multipliers && multipliers.attack && multipliers.defense " class="height-30-vh">
+        <div>Attack:</div>
+        <div class="d-flex">
+          <div  *ngFor="let key of Object.keys(multipliers.attack)">
+            <img title="{{ key }}" src="{{ getUrlType(key) }}">
+            <!-- <div>{{key}}</div> -->
+          </div>
+        </div>
+        <div>Defense:</div>
+        <div class="d-flex">
+          <div  *ngFor="let key of Object.keys(multipliers.defense)">
+            <img title="{{ key }}" src="{{ getUrlType(key) }}">
+            <!-- <div>{{key}}</div> -->
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="favourites.length" class="height-30-vh">
+        <div class="d-flex">
+          Favourites: 
+          <div class="pl-1"  (click)="deleteFavourites(); getFavourites();">
+            click to delete   
+          </div>
+        </div>
+    
+        <div class="d-flex">
+          <div *ngFor="let pokemon of favourites track by $index" (click)="saveAndReload(pokemon)">
+            <img class="cursor-pointer height-25-per" src="{{getImageUrl(getPokemonId(PokemonsObj,pokemon))}}" alt="{{pokemon}}" />
+            <div>{{up(pokemon)}}</div>
+            <!-- <div class="inline pokemonSearchId">{{getPokemonId(PokemonsObj,pokemon)}}</div> -->
+          </div>
+        </div>
+      </div>
+  
+  
+      <div class="height-30-vh">
+        <div class="d-flex">
+          Recents:
+        </div>
+    
+        <div class="d-flex">
+          <div *ngFor="let pokemon of recents track by $index" (click)="reloadWith(PokemonsObj,getPokemonId(PokemonsObj,pokemon))">
+            <img class="cursor-pointer height-25-per" src="{{getImageUrl(getPokemonId(PokemonsObj,pokemon))}}" alt="{{pokemon}}" />
+            <div>{{up(pokemon)}}</div>
+            <!-- <div class="inline pokemonSearchId">{{getPokemonId(PokemonsObj,pokemon)}}</div> -->
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </body>
+  
+  

@@ -1,0 +1,10 @@
+<div class="d-flex flex-wrap justify-content-center text-center " *ngIf="pokemons.length && !pokemonParam" >
+    <div *ngFor="let pokemon of pokemons; let i = index" class="d-flex-column border cursor-pointer" (click)="reloadWith(pokemons,i+1)">
+        <img class="width-20-per" src="{{ getImageUrl(i+1) }}" />
+        <div class="text-warning h5-responsive">{{ pokemon }}</div>
+    </div>
+</div>
+
+
+
+<app-pokemon></app-pokemon>
